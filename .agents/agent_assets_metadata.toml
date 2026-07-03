@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "JN0tIZvH8x4VI-yfbDWzx"
+uri = "file://artifacts/crosssync-agent/assets/images/icon.png"
+type = "image"
+title = "CrossSync Agent app icon"

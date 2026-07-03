@@ -1,0 +1,27 @@
+kind = "mobile"
+previewPath = "/"
+title = "CrossSync Agent"
+version = "1.0.0"
+id = "artifacts/crosssync-agent"
+router = "expo-domain"
+
+[[integratedSkills]]
+name = "expo"
+version = "1.0.0"
+
+[[services]]
+ensurePreviewReachable = "/status"
+name = "expo"
+paths = [ "/" ]
+localPort = 22659
+
+[services.development]
+run = "pnpm --filter @workspace/crosssync-agent run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/crosssync-agent", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/crosssync-agent", "run", "serve" ]
+
+[services.env]
+PORT = "22659"
+BASE_PATH = "/"
