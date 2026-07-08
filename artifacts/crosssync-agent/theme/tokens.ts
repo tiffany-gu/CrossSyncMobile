@@ -10,21 +10,21 @@
 /**
  * Color palette.
  *
- * Primary is the teal-green brand color (web oklch 0.62 0.17 165), NOT blue.
- * Semantic status colors (success/warning/danger/info) each ship with a
- * `Soft` background variant and a `Foreground` on-color.
+ * Primary is navy (web #000080). Semantic status colors
+ * (success/warning/danger/info) each ship with a `Soft` background variant
+ * and a `Foreground` on-color.
  */
 export const colors = {
   light: {
     text: '#1A1D35',
-    tint: '#0BA871',
+    tint: '#000080',
     background: '#F7F9FC',
     foreground: '#1A1D35',
     card: '#FFFFFF',
     cardForeground: '#1A1D35',
 
-    // oklch(0.62 0.17 165) — teal-green
-    primary: '#0BA871',
+    // navy #000080
+    primary: '#000080',
     primaryForeground: '#FFFFFF',
 
     // oklch(0.965 0.02 160) — very light teal
