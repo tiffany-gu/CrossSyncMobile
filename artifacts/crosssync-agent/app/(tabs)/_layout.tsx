@@ -10,9 +10,17 @@ import { Platform, StyleSheet, View, useColorScheme } from "react-native";
 import { useColors } from "@/hooks/useColors";
 
 // Bottom tabs reflect the Lovable web app's primary navigation.
-// The web sidebar/top-nav routes (/mcp, /.well-known/oauth-protected-resource)
-// map to the mobile MCP tab, keeping information architecture consistent
-// while respecting the 5-item bottom-tab limit.
+//
+// The web app exposes MCP-related routes as its primary surface:
+//   /mcp
+//   /.well-known/oauth-protected-resource  (OAuth discovery for the MCP server)
+//
+// On web these live in the sidebar/top-nav. On mobile they map to the MCP tab:
+// the resource/OAuth discovery endpoint is not a user-facing screen, so it
+// collapses into the MCP tab's connection/auth flow rather than a dedicated
+// tab. The remaining tabs (Dashboard, Activity, Review, Settings) keep the
+// information architecture consistent while respecting the 5-item bottom-tab
+// limit.
 function NativeTabLayout() {
   return (
     <NativeTabs>
@@ -140,6 +148,11 @@ function ClassicTabLayout() {
       />
       {/* Features moved out of bottom tabs (5-item limit) — reachable from Dashboard quick links */}
       <Tabs.Screen name="features" options={{ href: null, title: "Features" }} />
+      {/*
+        Web /.well-known/oauth-protected-resource is an OAuth discovery
+        endpoint, not a user-facing screen. It maps into the MCP tab's
+        connection/auth flow and is kept out of the bottom tab bar.
+      */}
     </Tabs>
   );
 }
