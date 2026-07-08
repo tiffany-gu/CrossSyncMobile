@@ -20,6 +20,7 @@ import {
   quickStats,
   agentSteps,
   activityItems,
+  reviewItems,
   platforms,
   statusPillConfig,
 } from '@/data/sample';
@@ -157,6 +158,28 @@ export default function DashboardScreen() {
           ))}
         </View>
 
+        {/* Change Review Queue */}
+        <View style={styles.sectionHeaderRow}>
+          <View style={styles.sectionTitleRow}>
+            <Text style={[styles.sectionTitle, { color: colors.foreground }]}>Change Review Queue</Text>
+            {reviewItems.length > 0 && (
+              <View style={[styles.countPill, { backgroundColor: colors.warningSoft }]}>
+                <Text style={[styles.countPillText, { color: colors.warningForeground }]}>
+                  {reviewItems.length}
+                </Text>
+              </View>
+            )}
+          </View>
+          <Pressable onPress={() => router.push('/(tabs)/review')}>
+            <Text style={[styles.seeAll, { color: colors.primary }]}>View all</Text>
+          </Pressable>
+        </View>
+        <View style={styles.reviewList}>
+          {reviewItems.map((item) => (
+            <ReviewQueueItem key={item.id} item={item} colors={colors} />
+          ))}
+        </View>
+
         {/* Quick Links */}
         <SectionHeader title="More" colors={colors} />
         <View style={styles.quickLinks}>
@@ -244,6 +267,54 @@ function PlatformCard({
         {data.detectedChange}
       </Text>
     </View>
+  );
+}
+
+function ReviewQueueItem({
+  item,
+  colors,
+}: {
+  item: (typeof reviewItems)[number];
+  colors: ReturnType<typeof useColors>;
+}) {
+  const riskTone = item.risk === 'High' ? 'danger' : item.risk === 'Medium' ? 'warning' : 'neutral';
+
+  return (
+    <Pressable
+      style={({ pressed }) => [
+        styles.reviewItem,
+        {
+          backgroundColor: colors.card,
+          borderColor: item.risk === 'High' ? colors.danger + '55' : colors.border,
+          opacity: pressed ? 0.8 : 1,
+        },
+      ]}
+      onPress={() => router.push('/(tabs)/review')}
+    >
+      <View style={styles.reviewItemHeader}>
+        <View style={styles.reviewItemPlatforms}>
+          <PlatformIcon platform={item.source} size={22} />
+          <Feather name="arrow-right" size={11} color={colors.mutedForeground} />
+          <PlatformIcon platform={item.target} size={22} />
+        </View>
+        <View style={styles.reviewItemBadges}>
+          <StatusBadge tone={riskTone as 'danger' | 'warning' | 'neutral'} small>
+            {item.risk} risk
+          </StatusBadge>
+          <StatusBadge tone="warning" small>{item.changeType}</StatusBadge>
+        </View>
+      </View>
+      <Text style={[styles.reviewItemSummary, { color: colors.foreground }]} numberOfLines={2}>
+        {item.summary}
+      </Text>
+      <View style={styles.reviewItemFooter}>
+        <Text style={[styles.reviewItemTime, { color: colors.mutedForeground }]}>{item.timestamp}</Text>
+        <View style={[styles.reviewItemAction, { backgroundColor: colors.warningSoft }]}>
+          <Feather name="eye" size={11} color={colors.warningForeground} />
+          <Text style={[styles.reviewItemActionText, { color: colors.warningForeground }]}>Needs review</Text>
+        </View>
+      </View>
+    </Pressable>
   );
 }
 
@@ -548,5 +619,79 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Inter_400Regular',
     marginTop: 1,
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  countPill: {
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 6,
+  },
+  countPillText: {
+    fontSize: 11,
+    fontFamily: 'Inter_600SemiBold',
+    fontWeight: '600' as const,
+  },
+  reviewList: {
+    gap: 8,
+    marginBottom: 16,
+  },
+  reviewItem: {
+    borderRadius: 12,
+    borderWidth: 1,
+    padding: 12,
+    gap: 7,
+  },
+  reviewItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  reviewItemPlatforms: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  reviewItemBadges: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+  },
+  reviewItemSummary: {
+    fontSize: 13,
+    fontFamily: 'Inter_500Medium',
+    fontWeight: '500' as const,
+    lineHeight: 18,
+  },
+  reviewItemFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  reviewItemTime: {
+    fontSize: 11,
+    fontFamily: 'Inter_400Regular',
+  },
+  reviewItemAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  reviewItemActionText: {
+    fontSize: 11,
+    fontFamily: 'Inter_500Medium',
+    fontWeight: '500' as const,
   },
 });
