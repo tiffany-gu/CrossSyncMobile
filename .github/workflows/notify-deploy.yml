@@ -1,0 +1,25 @@
+name: Notify Replit to refresh
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CrossSync-authored commits
+        id: check
+        run: |
+          if git log -1 --pretty=%B | grep -q '\[crosssync-skip\]'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Call Replit refresh endpoint
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          curl -sf -X POST "${{ secrets.REPLIT_REFRESH_URL }}/__crosssync/refresh" \
+            -H "X-Refresh-Secret: ${{ secrets.REPLIT_REFRESH_SECRET }}" \
+            --max-time 15
