@@ -9,6 +9,10 @@ import { Platform, StyleSheet, View, useColorScheme } from "react-native";
 
 import { useColors } from "@/hooks/useColors";
 
+// Bottom tabs reflect the Lovable web app's primary navigation.
+// The web sidebar/top-nav routes (/mcp, /.well-known/oauth-protected-resource)
+// map to the mobile MCP tab, keeping information architecture consistent
+// while respecting the 5-item bottom-tab limit.
 function NativeTabLayout() {
   return (
     <NativeTabs>
@@ -24,9 +28,9 @@ function NativeTabLayout() {
         <Icon sf={{ default: "checkmark.shield", selected: "checkmark.shield.fill" }} />
         <Label>Review</Label>
       </NativeTabs.Trigger>
-      <NativeTabs.Trigger name="features">
-        <Icon sf={{ default: "square.grid.2x2", selected: "square.grid.2x2.fill" }} />
-        <Label>Features</Label>
+      <NativeTabs.Trigger name="mcp">
+        <Icon sf={{ default: "point.3.connected.trianglepath.dotted", selected: "point.3.filled.connected.trianglepath.dotted" }} />
+        <Label>MCP</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="settings">
         <Icon sf={{ default: "gearshape", selected: "gearshape.fill" }} />
@@ -111,14 +115,14 @@ function ClassicTabLayout() {
         }}
       />
       <Tabs.Screen
-        name="features"
+        name="mcp"
         options={{
-          title: "Features",
+          title: "MCP",
           tabBarIcon: ({ color }) =>
             isIOS ? (
-              <SymbolView name="square.grid.2x2.fill" tintColor={color} size={22} />
+              <SymbolView name="point.3.connected.trianglepath.dotted" tintColor={color} size={22} />
             ) : (
-              <Feather name="grid" size={21} color={color} />
+              <Feather name="share-2" size={21} color={color} />
             ),
         }}
       />
@@ -134,6 +138,8 @@ function ClassicTabLayout() {
             ),
         }}
       />
+      {/* Features moved out of bottom tabs (5-item limit) — reachable from Dashboard quick links */}
+      <Tabs.Screen name="features" options={{ href: null, title: "Features" }} />
     </Tabs>
   );
 }
