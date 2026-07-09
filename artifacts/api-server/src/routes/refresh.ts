@@ -12,7 +12,7 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(bufA, bufB);
 }
 
-router.post("/crosssync/refresh", (req, res) => {
+router.post("/refresh", (req, res) => {
   const provided = req.header("X-Refresh-Secret") ?? "";
   const expected = process.env["REFRESH_SECRET"] ?? "";
 
@@ -21,6 +21,8 @@ router.post("/crosssync/refresh", (req, res) => {
     return;
   }
 
+  // Ack immediately — GitHub Action's curl has a 15s timeout, and the reset
+  // + restart can take longer than that.
   res.status(200).json({ ok: true });
 
   try {
@@ -31,19 +33,8 @@ router.post("/crosssync/refresh", (req, res) => {
     return;
   }
 
+  // Replit's process supervisor restarts the app after exit.
   process.exit(0);
 });
-
-export default router;
-
-3. Edit artifacts/api-server/src/routes/index.ts to add two lines:
-import { Router, type IRouter } from "express";
-import healthRouter from "./health";
-import refreshRouter from "./refresh";
-
-const router: IRouter = Router();
-
-router.use(healthRouter);
-router.use(refreshRouter);
 
 export default router;
