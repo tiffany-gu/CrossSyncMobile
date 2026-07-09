@@ -32,5 +32,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 app.use("/__crosssync", refreshRouter);
+app.use("/api/crosssync", refreshRouter);
 
 export default app;

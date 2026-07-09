@@ -1,0 +1,63 @@
+##[debug]Evaluating condition for step: 'Call Replit refresh endpoint'
+##[debug]Evaluating: (success() && (steps.check.outputs.skip == 'false'))
+##[debug]Evaluating And:
+##[debug]..Evaluating success:
+##[debug]..=> true
+##[debug]..Evaluating Equal:
+##[debug]....Evaluating Index:
+##[debug]......Evaluating Index:
+##[debug]........Evaluating Index:
+##[debug]..........Evaluating steps:
+##[debug]..........=> Object
+##[debug]..........Evaluating String:
+##[debug]..........=> 'check'
+##[debug]........=> Object
+##[debug]........Evaluating String:
+##[debug]........=> 'outputs'
+##[debug]......=> Object
+##[debug]......Evaluating String:
+##[debug]......=> 'skip'
+##[debug]....=> 'false'
+##[debug]....Evaluating String:
+##[debug]....=> 'false'
+##[debug]..=> true
+##[debug]=> true
+##[debug]Expanded: (true && ('false' == 'false'))
+##[debug]Result: true
+##[debug]Starting: Call Replit refresh endpoint
+##[debug]Loading inputs
+##[debug]Evaluating: format('curl -sf -X POST "{0}/api/crosssync/refresh" \
+##[debug]  -H "X-Refresh-Secret: {1}" \
+##[debug]  --max-time 15
+##[debug]', secrets.REPLIT_REFRESH_URL, secrets.REPLIT_REFRESH_SECRET)
+##[debug]Evaluating format:
+##[debug]..Evaluating String:
+##[debug]..=> 'curl -sf -X POST "{0}/api/crosssync/refresh" \
+##[debug]  -H "X-Refresh-Secret: {1}" \
+##[debug]  --max-time 15
+##[debug]'
+##[debug]..Evaluating Index:
+##[debug]....Evaluating secrets:
+##[debug]....=> Object
+##[debug]....Evaluating String:
+##[debug]....=> 'REPLIT_REFRESH_URL'
+##[debug]..=> '***'
+##[debug]..Evaluating Index:
+##[debug]....Evaluating secrets:
+##[debug]....=> Object
+##[debug]....Evaluating String:
+##[debug]....=> 'REPLIT_REFRESH_SECRET'
+##[debug]..=> '***'
+##[debug]=> 'curl -sf -X POST "***/api/crosssync/refresh" \
+##[debug]  -H "X-Refresh-Secret: ***" \
+##[debug]  --max-time 15
+##[debug]'
+##[debug]Result: 'curl -sf -X POST "***/api/crosssync/refresh" \
+##[debug]  -H "X-Refresh-Secret: ***" \
+##[debug]  --max-time 15
+##[debug]'
+##[debug]Loading env
+Run curl -sf -X POST "***/api/crosssync/refresh" \
+##[debug]/usr/bin/bash -e /home/runner/work/_temp/99a63674-3e40-48b7-9195-2fb14386453d.sh
+Error: Process completed with exit code 22.
+##[debug]Finishing: Call Replit refresh endpoint
